@@ -1,0 +1,291 @@
+definitions:
+  main.CallbackGithubDTO:
+    properties:
+      code:
+        type: string
+    required:
+    - code
+    type: object
+  main.CreateLedgerDTO:
+    properties:
+      balance:
+        type: integer
+      description:
+        type: string
+      store_name:
+        type: string
+    required:
+    - balance
+    - description
+    - store_name
+    type: object
+  main.UpdateLedgerDTO:
+    properties:
+      balance:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      is_disabled:
+        type: boolean
+      store_name:
+        type: string
+    required:
+    - balance
+    - description
+    - id
+    - is_disabled
+    - store_name
+    type: object
+  main.UserDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  main.UserPasswordDTO:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
+info:
+  contact: {}
+  description: 카페에 맡겨둔 돈 관리해 주는 전자장부
+  title: Coffee Money API
+  version: 0.0.1
+paths:
+  /auth:
+    delete:
+      description: 로그아웃
+      responses: {}
+      tags:
+      - Auth
+    get:
+      description: 로그인 확인
+      responses: {}
+      tags:
+      - Auth
+    post:
+      consumes:
+      - application/json
+      description: 로그인
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserDTO'
+      responses: {}
+      tags:
+      - Auth
+  /auth/github:
+    get:
+      description: Github 로그인
+      responses: {}
+      tags:
+      - Auth
+  /auth/github/callback:
+    get:
+      description: Github 로그인 Callback
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.CallbackGithubDTO'
+      responses: {}
+      tags:
+      - Auth
+  /hello:
+    get:
+      consumes:
+      - '*/*'
+      description: hello, world!
+      responses: {}
+  /ledger:
+    get:
+      consumes:
+      - application/json
+      description: 가계부 전체 데이터 조회
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+    post:
+      consumes:
+      - application/json
+      description: 가계부 데이터 추가
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.CreateLedgerDTO'
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+    put:
+      consumes:
+      - application/json
+      description: 가계부 데이터 수정
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.UpdateLedgerDTO'
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+  /ledger/filter/store/{store}:
+    get:
+      consumes:
+      - application/json
+      description: 가계부 데이터 조회 (가계 기준 검색)
+      parameters:
+      - description: Store Name
+        in: path
+        name: store
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+  /ledger/filter/user/{username}:
+    get:
+      consumes:
+      - application/json
+      description: 가계부 데이터 조회 (사용자 기준 검색)
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+  /ledger/item/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 가계부 데이터 조회
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+  /ledger/search:
+    get:
+      consumes:
+      - application/json
+      description: 가계부 데이터 검색
+      parameters:
+      - description: Store Name
+        in: query
+        name: store_name
+        type: string
+      - description: Balance Begin
+        in: query
+        name: balance_begin
+        type: string
+      - description: Balance End
+        in: query
+        name: balance_end
+        type: string
+      - description: Description
+        in: query
+        name: description
+        type: string
+      - description: IsDisabled
+        in: query
+        name: is_disable
+        type: string
+      - description: Username
+        in: query
+        name: useranme
+        type: string
+      - description: Created At Begin
+        in: query
+        name: created_at_begin
+        type: string
+      - description: Created At End
+        in: query
+        name: created_at_end
+        type: string
+      - description: Updated At Begin
+        in: query
+        name: updated_at_begin
+        type: string
+      - description: Updated At End
+        in: query
+        name: updated_at_end
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - ledger
+  /user:
+    delete:
+      consumes:
+      - application/json
+      description: 사용자 삭제
+      responses: {}
+      tags:
+      - user
+    patch:
+      consumes:
+      - application/json
+      description: 사용자 패스워드 변경
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserPasswordDTO'
+      responses: {}
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: 새로운 사용자 생성
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserDTO'
+      responses: {}
+      tags:
+      - user
+swagger: "2.0"

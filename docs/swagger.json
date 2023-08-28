@@ -1,0 +1,437 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "카페에 맡겨둔 돈 관리해 주는 전자장부",
+        "title": "Coffee Money API",
+        "contact": {},
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/auth": {
+            "get": {
+                "description": "로그인 확인",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {}
+            },
+            "post": {
+                "description": "로그인",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UserDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "로그아웃",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {}
+            }
+        },
+        "/auth/github": {
+            "get": {
+                "description": "Github 로그인",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {}
+            }
+        },
+        "/auth/github/callback": {
+            "get": {
+                "description": "Github 로그인 Callback",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.CallbackGithubDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/hello": {
+            "get": {
+                "description": "hello, world!",
+                "consumes": [
+                    "*/*"
+                ],
+                "responses": {}
+            }
+        },
+        "/ledger": {
+            "get": {
+                "description": "가계부 전체 데이터 조회",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "responses": {}
+            },
+            "put": {
+                "description": "가계부 데이터 수정",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UpdateLedgerDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "post": {
+                "description": "가계부 데이터 추가",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.CreateLedgerDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/ledger/filter/store/{store}": {
+            "get": {
+                "description": "가계부 데이터 조회 (가계 기준 검색)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Store Name",
+                        "name": "store",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/ledger/filter/user/{username}": {
+            "get": {
+                "description": "가계부 데이터 조회 (사용자 기준 검색)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/ledger/item/{id}": {
+            "get": {
+                "description": "가계부 데이터 조회",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/ledger/search": {
+            "get": {
+                "description": "가계부 데이터 검색",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Store Name",
+                        "name": "store_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Balance Begin",
+                        "name": "balance_begin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Balance End",
+                        "name": "balance_end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "IsDisabled",
+                        "name": "is_disable",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "useranme",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Created At Begin",
+                        "name": "created_at_begin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Created At End",
+                        "name": "created_at_end",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Updated At Begin",
+                        "name": "updated_at_begin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Updated At End",
+                        "name": "updated_at_end",
+                        "in": "query"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user": {
+            "post": {
+                "description": "새로운 사용자 생성",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UserDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "사용자 삭제",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "responses": {}
+            },
+            "patch": {
+                "description": "사용자 패스워드 변경",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UserPasswordDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "main.CallbackGithubDTO": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.CreateLedgerDTO": {
+            "type": "object",
+            "required": [
+                "balance",
+                "description",
+                "store_name"
+            ],
+            "properties": {
+                "balance": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "store_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.UpdateLedgerDTO": {
+            "type": "object",
+            "required": [
+                "balance",
+                "description",
+                "id",
+                "is_disabled",
+                "store_name"
+            ],
+            "properties": {
+                "balance": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_disabled": {
+                    "type": "boolean"
+                },
+                "store_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.UserDTO": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.UserPasswordDTO": {
+            "type": "object",
+            "required": [
+                "password"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
